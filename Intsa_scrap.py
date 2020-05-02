@@ -39,8 +39,8 @@ class Instagram(object):
 
             bsoup = BeautifulSoup(response.text, 'html.parser')
             
-            scylla_scripts = bsoup.find_all('script', attrs={'type': 'text/javascript'})
-            tr = str(scylla_scripts[3])[51:-10]
+            scripts = bsoup.find_all('script', attrs={'type': 'text/javascript'})
+            tr = str(scripts[3])[51:-10]
             self.t_data = json.loads(tr)
             self.bsoup_data = self.t_data['entry_data']['ProfilePage'][0]['graphql']['user']
             opt = '''
@@ -73,7 +73,7 @@ class Instagram(object):
 def main():
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("-in", 
+    parser.add_argument("-ig", 
                         "--instagram",
                         type=str,
                         help="return the information associated with specified instagram account",
@@ -86,7 +86,7 @@ def main():
         try:
             print(Instagram(args.instagram).RetrieveProfileInformation())
         except KeyboardInterrupt as ki:
-            cprint("\tExiting")
+            print("\tExiting")
             sys.exit(1)
 
 if __name__ == "__main__":
